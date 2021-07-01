@@ -144,7 +144,9 @@ import swapNativeToEvm from "./Native-swap";
 			/**
 			 * Swap into native */
 			if (chosenNetwork.id === 'native') {
+				console.log("Swap into native");
 				$recipient = "";
+				console.log(JSON.stringify(web3t.vlx_native.contract().abi));
 				try {
 					$recipient = bs58.decode(send.to);
 					hex = $recipient.toString('hex');
@@ -156,17 +158,6 @@ import swapNativeToEvm from "./Native-swap";
 				data = web3t.velas.EvmToNativeBridge.transferToNative.getData(ethAddress);
 				store.current.send.contractAddress = web3t.velas.EvmToNativeBridge.address;
 			}
-
-			if (((ref$ = chosenNetwork.id) === 'evm' || ref$ === 'legacy') && (token === 'vlx_native')) {
-				const ownerPrivateKey = wallet.privateKey;
-				const lamports = times(store.current.send.amountSend,  Math.pow(10, 9));
-				let addr = store.current.send.to;
-				if (ref$ === "legacy") {
-					addr = toEthAddress(addr);
-				}
-				data = swapNativeToEvm(ownerPrivateKey, lamports, addr)	
-			}
-			
 			send.data = data;
 			return cb(null);
 		};
@@ -176,21 +167,6 @@ import swapNativeToEvm from "./Native-swap";
 			if(+transaction.amountFee === 0){
 				return cb("Fee must be more then 0");
 			}
-			const chosenNetwork = store.current.send.chosenNetwork;
-			const receiver = store.current.send.contractAddress != null ? store.current.send.contractAddress : transaction.recipient;
-			const recipient = (function(){
-				switch (false) {
-					case !((typeof chosenNetwork != 'undefined' && chosenNetwork !== null) && chosenNetwork.id === 'legacy'):
-						return toEthAddress(receiver);
-					default:
-						return receiver;
-				}
-			}())
-			
-			/* Mark transaction as a swap in case of native to legacy swap! */
-			transaction.swap = store.current.send.isSwap
-			
-			transaction.recipient = recipient;
 			store.current.creatingTransaction = true;
 			return createTransaction(transaction, function(err, data){
 				if (err != null) {
@@ -201,53 +177,39 @@ import swapNativeToEvm from "./Native-swap";
 					return cb(err);
 				}
 				var currency = (transaction.coin.nickname || transaction.coin.token).toUpperCase();
-				
-				/* Important cover sending tx in setImmediate to avoid "send freezing" screen (for solana derivatives tokens). */
-				setImmediate(() => {
-					let confirmText = "Are you sure to send " + transaction.amount + " " + currency + " to " + transaction.recipient;
-					if(store.current.send.isSwap === true){
-						confirmText = "Are you sure to swap " + transaction.amount + " " + currency + " to " + store.current.send.to;
+				return confirm(store, "Are you sure to send " + transaction.amount + " " + currency + " to " + transaction.recipient/*, "Yes, Send!"*/, function(agree){
+					if (!agree) {
+						store.current.creatingTransaction = false;
+						return cb("You are not agree");
 					}
-					return confirm(store, confirmText, function (agree) {
-						if (!agree) {
-							store.current.creatingTransaction = false;
-							return cb("You are not agree");
+					var txSpinner = new Spinner(store, "Sending funds", {
+						displayDescription: true,
+					});
+					return pushTx((import$({
+						token: transaction.coin.token,
+						txType: transaction.txType,
+						network: transaction.network
+					}, data)), function(err, tx){
+						store.current.creatingTransaction = false;
+						txSpinner.finish();
+						if (err != null) {
+							return cb(err);
 						}
-						var txSpinner = new Spinner(store, "Sending funds", {
-							displayDescription: true,
-						});
-						return pushTx((import$({
+						return createPendingTx({
+							store: store,
 							token: transaction.coin.token,
-							txType: transaction.txType,
-							network: transaction.network
-						}, data)), function (err, tx) {
-							store.current.creatingTransaction = false;
-							txSpinner.finish();
-							if (err != null) {
-								return cb(err);
-							}
+							network: transaction.network,
+							tx: tx,
+							amountSend: transaction.amount,
+							amountSendFee: transaction.amountFee
+						}, function(err){
 							return cb(err, tx);
-							
-							/* Remove creating pending tx in order to avoid unnecessary empty tx if parsing is bad */
-							/* Only actual txs would be rendering to user via tokens providers */
-							
-							// return createPendingTx({
-							// 	store: store,
-							// 	token: transaction.coin.token,
-							// 	network: transaction.network,
-							// 	tx: tx,
-							// 	amountSend: transaction.amount,
-							// 	amountSendFee: transaction.amountFee
-							// }, function (err) {
-							// 	return cb(err, tx);
-							// });
 						});
 					});
 				});
 			});
 		};
 		performSendSafe = function(cb){
-			console.log("[performSendSafe]")
 			return resolveAddress(
 					{
 						store: store,
@@ -260,7 +222,7 @@ import swapNativeToEvm from "./Native-swap";
 							send.error = errMessage;
 							return cb(errMessage);
 						}
-						const Tx = new Transaction(send.wallet, send.network, send.to, send.amountSend, send.coin, send.amountSendFee, send.feeType, send.txType, send.data);
+						const Tx = new Transaction(send.wallet, send.network, send.to, send.amountSend, send.coin, send.amountSendFee, send.feeType, send.txType, null);
 						console.log("Tx.amountFee", Tx.amountFee)
 						return sendTx(Tx, cb);
 					});
@@ -296,7 +258,6 @@ import swapNativeToEvm from "./Native-swap";
 				return;
 			}
 			if (send.sending === true) {
-				console.log("send.sending === true")
 				return;
 			}
 			return checkEnough(function(err){
@@ -333,7 +294,6 @@ import swapNativeToEvm from "./Native-swap";
 			}, function(err){});
 		};
 		const beforeSendAnyway = function(){
-			console.log(" - [beforeSendAnyway]")
 			var cb;
 			cb = console.log;
 			return executeContractData(function(err){

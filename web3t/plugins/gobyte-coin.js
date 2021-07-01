@@ -97,7 +97,6 @@
   out$.type = type = 'coin';
   out$.enabled = enabled = true;
   out$.name = name = 'Gobyte';
-  out$.nickname = "gbx";
   out$.token = token = 'gbx';
   out$.image = image = 'https://res.cloudinary.com/nixar-work/image/upload/v1548537659/gobyte.png';
   out$.usdInfo = usdInfo = "url(https://explorer.velas.com/ticker).gbx_price";

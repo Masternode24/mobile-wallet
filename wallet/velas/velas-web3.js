@@ -9,7 +9,6 @@
   module.exports = function(store){
     var network, web3;
     network = networks[store.current.network];
-    console.log("network", network);
     web3 = new Web3(new Web3.providers.HttpProvider(network));
     delete web3.eth.sendTransaction;
     delete web3.eth.sendSignedTransaction;

@@ -10,30 +10,29 @@
 			obj));
   };
   filterTxs = curry$(function(store, tx){
-		var type, token, from, to, filterProps, found;
-		type = tx.type, token = tx.token, from = tx.from, to = tx.to;
-		
-		filterProps = keys(
-			store.current.filter);
-		found = filter(function(prop){
-			return store.current.filter[prop] === tx[prop];
-		})(
-			filterProps);
-		return found.length === filterProps.length;
+	var type, token, from, to, filterProps, found;
+	type = tx.type, token = tx.token, from = tx.from, to = tx.to;
+	filterProps = keys(
+		store.current.filter);
+	found = filter(function(prop){
+	  return store.current.filter[prop] === tx[prop];
+	})(
+		filterProps);
+	return found.length === filterProps.length;
   });
   module.exports = function(store){
 	if (store.transactions.all.length === 0) {
 	  return store.transactions.applied.length = 0;
 	}
-	const coin = store.current.filter.token;
 	return store.transactions.applied = reverse(
 		sortBy(function(it){
 		  return it.time;
 		})(
-			filter(function(it){
-				return (coin === "*" || !coin) ? true : coin === it.token;
-			})(
-					store.transactions.all)));
+			filter(filterTxs(store))(
+				filter(function(it){
+				  return in$(it.type, store.current.filterTxsTypes);
+				})(
+					store.transactions.all))));
   };
   function curry$(f, bound){
 	var context,

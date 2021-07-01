@@ -250,7 +250,6 @@
           if (err != null) {
             return cb(err);
           }
-          estimate = 36000;
           dec = getDec(network);
           res = times(gasPrice, estimate);
           val = div(res, Math.pow(10, 18));
@@ -530,30 +529,30 @@
 		}
   };
   out$.isValidAddress = isValidAddress = function(arg$, cb){
-	var address, network, valid;
-	address = arg$.address, network = arg$.network;
-	if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-	  return cb("Address is not valid");
-	} else {
-	  valid = isChecksumAddress(address);
-	  if (!valid) {
-		return cb("Address is not valid");
-	  }
-	}
-	return cb(null, true);
+    var address, network, valid;
+    address = arg$.address, network = arg$.network;
+    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+      return cb("Address is not valid");
+    } else {
+      valid = isChecksumAddress(address);
+      if (!valid) {
+        return cb("Address is not valid");
+      }
+    }
+    return cb(null, true);
   };
   isChecksumAddress = function(address){
-	var addressHash, i;
-	address = address.replace('0x', '');
-	addressHash = sha3(address.toLowerCase());
-	i = 0;
-	while (i < 40) {
-	  if (parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i] || parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i]) {
-		return false;
-	  }
-	  i++;
-	}
-	return true;
+    var addressHash, i;
+    address = address.replace('0x', '');
+    addressHash = sha3(address.toLowerCase());
+    i = 0;
+    while (i < 40) {
+      if (parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i] || parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i]) {
+        return false;
+      }
+      i++;
+    }
+    return true;
   };
   function curry$(f, bound){
     var context,

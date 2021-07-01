@@ -6,6 +6,7 @@ require! {
     \../json-parse.js
     \../deadline.js
     \./deps.js : { BitcoinLib, bip39 }
+    #\multicoin-address-validator : \WAValidator  
 }
 get-bitcoin-fullpair-by-index = (mnemonic, index, network)->
     seed = bip39.mnemonic-to-seed-hex mnemonic
@@ -33,14 +34,7 @@ calc-fee-per-byte = (config, cb)->
     #bytes = decode(data.raw-tx).to-string(\hex).length / 2
     bytes = data.rawtx.length / 2
     infelicity = 1
-    err, data <- get "#{get-api-url network}/fee/6" .timeout { deadline } .end
-    return cb err if err?
-    vals = values data.body
-    calced-fee-per-kb = 
-        | vals.0 is -1 => network.tx-fee
-        | _ => vals.0
-    fee-per-byte = calced-fee-per-kb `div` 1000    
-    calc-fee = (bytes + infelicity) `times` fee-per-byte
+    calc-fee = (bytes + infelicity) `times` o.fee-per-byte
     final-price =
         | calc-fee > +o.cheap => calc-fee
         | _ => o.cheap
@@ -264,3 +258,7 @@ export get-balance = ({ network, address} , cb)->
     dec = get-dec network
     value = balance.value `div` dec
     cb null, value
+#export isValidAddress = ({ address, network }, cb)-> 
+#    addressIsValid = WAValidator.validate(address, 'BTC', 'both')    
+#    return cb "Address is not valid" if not addressIsValid   
+#    return cb null, address

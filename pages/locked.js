@@ -39,8 +39,9 @@ export default ({ store, web3t }) => {
     store.current.auth.failedCount = 0;
     store.current.auth.isLoggingIn = false;
     store.current.pin = "";
-
+	console.log("loginQuick");
     spin(store, lang.loadingBalance, web3t.refresh.bind(web3t))(function(err, data){
+	  console.log("after loginQuick");
       store.current.auth.isLoggingIn = false;
       if (err) {
         store.current.page = "error";
@@ -50,6 +51,7 @@ export default ({ store, web3t }) => {
   };
 
   const loginSlow = () => {
+    console.log("[loginSlow]");
     spin(store, lang.walletDecrypting, web3t.init.bind(web3t))(function(err, data){
       if (err) {
         return Toast.show({text: err + ""});

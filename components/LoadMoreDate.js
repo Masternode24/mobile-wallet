@@ -77,7 +77,7 @@ export default ({ store, web3t }) => {
       }
     };
 
-    const txs = store.transactions.applied;		
+    const txs = store.transactions.applied;
 
     const showTransaction = (transaction) => {
         store.infoTransaction = transaction;
@@ -99,20 +99,9 @@ export default ({ store, web3t }) => {
     }
 
     const renderTransaction = (transaction) => {
-			var r_amount = roundNumber(transaction.amount, {decimals: 2});
-			var amount = roundHuman(r_amount);
-			var curr = transaction.token;
-			let currency_display = (function() {
-				switch (curr) {
-					case "vlx_native":
-					case "vlx_evm":
-					case "vlx2":
-					case "vlx": return "VLX";
-					default: return transaction.token
-				}
-			}());
-			currency_display = currency_display.toUpperCase();
-				return (
+	  	var r_amount = roundNumber(transaction.amount, {decimals: 2});
+	  	var amount = roundHuman(r_amount);
+      return (
 				<ListItem
 					thumbnail
 					underlayColor={Images.color1}
@@ -138,12 +127,12 @@ export default ({ store, web3t }) => {
 				<Right>
 					<Text style={amountStyle(transaction.type)}>
 					{index(transaction.type)}
-					{amount}{"\u00A0"}{currency_display}{Platform.OS === "android" ? "\u00A0\u00A0" : null}
+					{amount}{"\u00A0"}{currency}{Platform.OS === "android" ? "\u00A0\u00A0" : null}
 					</Text>
 					{transaction.fee
 						?(
 							<Text style={styles.constDate}>
-							({lang.fee}: {Math.floor(transaction.fee)}{" "}{currency_display}){Platform.OS === "android" ? "\u00A0\u00A0" : null}
+							({lang.fee}: {Math.floor(transaction.fee)}{" "}{currency}){Platform.OS === "android" ? "\u00A0\u00A0" : null}
 							</Text>
 						)
 						: null
@@ -156,27 +145,25 @@ export default ({ store, web3t }) => {
 
     return (
       <View style={styles.container}>
+
         {store.history.filterOpen ? (
           <Header searchBar style={styles.headerSearchBar}>
-						<Item style={{ backgroundColor: Images.color4}}>
-							<Icon name="ios-search" style={{ color: "#fff"}}/>
-							<Input
-								placeholder="Search"
-								value={store.current.filterVal.temp}
-								placeholderTextColor="#fff"
-								onChangeText={changeSearch}
-								selectionColor={"#fff"}
-								style={{ color: "#fff", backgroundColor: "transparent"}}
-							/>
-							<Icon name="ios-trash" onPress={clearFilter} style={{ color: "#fff"}}/>
-						</Item>
-						<Button transparent onPress={applyFilter}>
-							<Text style={{ color: "#fff"}}>{lang.filter}</Text>
-						</Button>
+                <Item style={{ backgroundColor: Images.color4}}>
+                  <Icon name="ios-search" style={{ color: "#fff"}}/>
+                  <Input
+                    placeholder="Search"
+                    value={store.current.filterVal.temp}
+                    placeholderTextColor="#fff"
+                    onChangeText={changeSearch}
+                    selectionColor={"#fff"}
+                    style={{ color: "#fff", backgroundColor: "transparent"}}
+                  />
+                  <Icon name="ios-trash" onPress={clearFilter} style={{ color: "#fff"}}/>
+                </Item>
           </Header>
         ) : null}
 
-        {store.current.refreshing || store.current.transactionsAreLoading ? (
+        {store.current.refreshing ? (
           <ActivityIndicator color="#fff" />
         ) : (
           <View>
@@ -188,6 +175,8 @@ export default ({ store, web3t }) => {
                 />
               </View>
             )}
+
+
             <List>
               {txs.map(renderTransaction)}
             </List>

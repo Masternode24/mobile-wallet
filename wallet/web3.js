@@ -252,15 +252,15 @@
       return it.token;
     })(
     store.coins));
-    cweb3.velas = velasApi(store);
+    console.log("velas", cweb3);
+    // cweb3.velas = velasApi(store);
     return getCoins(store, function(err, coins){
       if (err != null) {
         return cb(err);
       }
       store.coins = coins;
       return getApis(cweb3, store, function(err, apis){
-				store.current.send.sending = false;
-				if (err != null) {
+        if (err != null) {
           return cb(err);
         }
         importAll$(cweb3, apis);

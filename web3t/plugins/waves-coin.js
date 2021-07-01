@@ -23,7 +23,6 @@
   };
   out$.type = type = 'coin';
   out$.enabled = enabled = false;
-  out$.nickname = "waves";
   out$.token = token = 'waves';
   out$.image = image = '//res.cloudinary.com/nixar-work/image/upload/v1525380100/waves-icon.png';
   out$.usdInfo = usdInfo = "url(https://min-api.cryptocompare.com/data/pricemulti?fsyms=WAVES&tsyms=USD).WAVES.USD";

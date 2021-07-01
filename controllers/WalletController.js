@@ -1,7 +1,7 @@
 import Spinner from "../utils/spinner";
 const api = require('../../api.js');
 
-export class WalletController extends WalletInterface {
+export class WalletController extends  WalletInterface {
 
 	wallet = null;
 
@@ -22,16 +22,16 @@ export class WalletController extends WalletInterface {
 	sendTx = function(tx, cb){
 		var recipient, wallet, network, amount, amountFee, data, coin, feeType, txType, token, tx, cb;
 
-		network   = tx.network;
-		wallet    = tx.wallet;
-		recipient = tx.recipient;
-		amount    = tx.amount;
-		coin      = tx.coin;
-		amountFee = tx.amountFee;
-		feeType   = tx.feeType;
-		txType    = tx.txType;
-		data      = tx.data;
-		cb        = tx.cb;
+		network   = tx.get('network');
+		wallet    = tx.get('wallet');
+		recipient = tx.get('recipient');
+		amount    = tx.get('amount');
+		coin      = tx.get('coin');
+		amountFee = tx.get('amountFee');
+		feeType   = tx.get('feeType')
+		txType    = tx.get('txType')
+		data      = tx.get('data')
+		cb        = tx.get('cb')
 
 		token = coin.token;
 		if(+amountFee === 0){

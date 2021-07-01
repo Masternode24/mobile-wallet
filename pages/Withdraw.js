@@ -57,98 +57,98 @@ const RadioButtons = () => {
 	return (
 			<View style={styles.inputContainerRadio}>
 
-				<View style={styles.radioField}>
-					<TouchableOpacity
-							style={checked === 'slow' ? styles.borderRadioCheck : styles.borderRadio}
-							onPress={() => setChecked('slow')}>
-						<View style={styles.radioField}>
-							<RadioButton
-									value="slow"
-									status={checked === 'slow' ? 'checked' : 'unchecked'}
-									onPress={() => setChecked('slow')}
-									color={'yellow'}
-									uncheckedColor={'rgba(255,255,255,0.60)'}
-							/>
-							<Text style={checked === 'slow' ? styles.txtRadioCheck : styles.txtRadio}>Slow</Text>
-						</View>
-						<Item style={styles.borderItemRadio}>
-							<Input
-									returnKeyType="done"
-									autoCompleteType="off"
-									style={checked === 'slow' ? styles.inputStyleRadioCheck : styles.inputStyleRadio}
-									selectionColor={'#fff'}
-									keyboardAppearance="dark"
-									placeholder="0.00"
-									value={'10.00 $'}
-									keyboardType="numeric"
-									placeholderTextColor="rgba(255,255,255,0.60)"
-									disabled={true}
-							/>
-						</Item>
-					</TouchableOpacity>
-				</View>
+      <View style={styles.radioField}>
+        <TouchableOpacity
+          style={checked === 'slow' ? styles.borderRadioCheck : styles.borderRadio}
+          onPress={() => setChecked('slow')}>
+            <View style={styles.radioField}>
+              <RadioButton
+                value="slow"
+                status={checked === 'slow' ? 'checked' : 'unchecked'}
+                onPress={() => setChecked('slow')}
+                color={'yellow'}
+                uncheckedColor={'rgba(255,255,255,0.60)'}
+              />
+              <Text style={checked === 'slow' ? styles.txtRadioCheck : styles.txtRadio}>Slow</Text>
+            </View>
+          <Item style={styles.borderItemRadio}>
+              <Input
+                returnKeyType="done"
+                autoCompleteType="off"
+                style={checked === 'slow' ? styles.inputStyleRadioCheck : styles.inputStyleRadio}
+                selectionColor={'#fff'}
+                keyboardAppearance="dark"
+                placeholder="0.00"
+                value={'10.00 $'}
+                keyboardType="numeric"
+                placeholderTextColor="rgba(255,255,255,0.60)"
+                disabled={true}
+              />
+          </Item>
+        </TouchableOpacity>
+      </View>
 
-				<View style={styles.radioField}>
-					<TouchableOpacity
-							style={checked === 'custom' ? styles.borderRadioCheck : styles.borderRadio}
-							onPress={() => setChecked('custom')}>
-						<View style={styles.radioField}>
-							<RadioButton
-									value="custom"
-									status={checked === 'custom' ? 'checked' : 'unchecked'}
-									onPress={() => setChecked('custom')}
-									color={'yellow'}
-									uncheckedColor={'rgba(255,255,255,0.60)'}
-							/>
-							<Text style={checked === 'custom' ? styles.txtRadioCheck : styles.txtRadio}>Custom</Text>
-						</View>
-						<Item style={styles.borderItemRadio}>
-							<Input
-									returnKeyType="done"
-									autoCompleteType="off"
-									style={checked === 'custom' ? styles.inputStyleRadioCheck : styles.inputStyleRadio}
-									selectionColor={'#fff'}
-									keyboardAppearance="dark"
-									placeholder="0.00"
-									value={'10.00 $'}
-									keyboardType="numeric"
-									placeholderTextColor="rgba(255,255,255,0.60)"
-									disabled={true}
-							/>
-						</Item>
-					</TouchableOpacity>
-				</View>
+      <View style={styles.radioField}>
+        <TouchableOpacity
+          style={checked === 'custom' ? styles.borderRadioCheck : styles.borderRadio}
+          onPress={() => setChecked('custom')}>
+            <View style={styles.radioField}>
+              <RadioButton
+                value="custom"
+                status={checked === 'custom' ? 'checked' : 'unchecked'}
+                onPress={() => setChecked('custom')}
+                color={'yellow'}
+                uncheckedColor={'rgba(255,255,255,0.60)'}
+              />
+              <Text style={checked === 'custom' ? styles.txtRadioCheck : styles.txtRadio}>Custom</Text>
+            </View>
+          <Item style={styles.borderItemRadio}>
+              <Input
+                returnKeyType="done"
+                autoCompleteType="off"
+                style={checked === 'custom' ? styles.inputStyleRadioCheck : styles.inputStyleRadio}
+                selectionColor={'#fff'}
+                keyboardAppearance="dark"
+                placeholder="0.00"
+                value={'10.00 $'}
+                keyboardType="numeric"
+                placeholderTextColor="rgba(255,255,255,0.60)"
+                disabled={true}
+              />
+          </Item>
+        </TouchableOpacity>
+      </View>
 
-				<TouchableOpacity
-						style={checked === 'fast' ? styles.borderRadioCheck : styles.borderRadio}
-						onPress={() => setChecked('fast')}>
-					<View style={styles.radioField}>
-						<RadioButton
-								value="fast"
-								status={checked === 'fast' ? 'checked' : 'unchecked'}
-								onPress={() => setChecked('fast')}
-								color={'yellow'}
-								uncheckedColor={'rgba(255,255,255,0.60)'}
-						/>
-						<Text style={checked === 'fast' ? styles.txtRadioCheck : styles.txtRadio}>Fast</Text>
-					</View>
-					<Item style={styles.borderItemRadio}>
-						<Input
-								returnKeyType="done"
-								autoCompleteType="off"
-								style={checked === 'fast' ? styles.inputStyleRadioCheck : styles.inputStyleRadio}
-								selectionColor={'#fff'}
-								keyboardAppearance="dark"
-								placeholder="0.00"
-								value={'10.00 $'}
-								keyboardType="numeric"
-								placeholderTextColor="rgba(255,255,255,0.60)"
-								disabled={checked === 'fast' ? false : true}
-						/>
-					</Item>
-				</TouchableOpacity>
-			</View>
-	);
+        <TouchableOpacity
+          style={checked === 'fast' ? styles.borderRadioCheck : styles.borderRadio}
+          onPress={() => setChecked('fast')}>
+            <View style={styles.radioField}>
+              <RadioButton
+                value="fast"
+                status={checked === 'fast' ? 'checked' : 'unchecked'}
+                onPress={() => setChecked('fast')}
+                color={'yellow'}
+                uncheckedColor={'rgba(255,255,255,0.60)'}
+              />
+              <Text style={checked === 'fast' ? styles.txtRadioCheck : styles.txtRadio}>Fast</Text>
+            </View>
+          <Item style={styles.borderItemRadio}>
+              <Input
+                returnKeyType="done"
+                autoCompleteType="off"
+                style={checked === 'fast' ? styles.inputStyleRadioCheck : styles.inputStyleRadio}
+                selectionColor={'#fff'}
+                keyboardAppearance="dark"
+                placeholder="0.00"
+                value={'10.00 $'}
+                keyboardType="numeric"
+                placeholderTextColor="rgba(255,255,255,0.60)"
+                disabled={checked === 'fast' ? false : true}
+              />
+          </Item>
+        </TouchableOpacity>
+    </View>
+  );
 };
 
 
@@ -159,7 +159,7 @@ export default ({ store, web3t }) => {
 		recipientChange,
 		amountChange,
 		amountUsdChange,
-		checkRecipientAddress,
+	checkRecipientAddress,
 	} = sendFuncs(store, web3t);
 
 	const wallets = walletsFuncs(store, web3t).wallets;
@@ -175,26 +175,26 @@ export default ({ store, web3t }) => {
 		store.current.returnPage = 'send';
 		return store.current.page = 'Scanner';
 	}
-
+	
 	const btnWithdraw = ({ store, web3t }) => {
-		const { send, beforeSendAnyway } = sendFuncs(store, web3t);
-		const withdraw = async () => {
-			try {
-				store.current.send.error = "";
-				beforeSendAnyway();
-			} catch (e) {
-				console.error(e);
-				Toast.show({text: e.message});
-			}
-		};
-		const lang = getLang(store);
-		const sendText = lang.send;
-		const disabled = (!((send.error.length === 0) && (+send.amountSend > 0))) || (send.amountChanging === true) || (store.current.creatingTransaction === true);
-		return (
-				<Button block style={disabled ? styles.buttonInactive : styles.btnVelasActive} onPress={withdraw} disabled={disabled}>
-					<Text style={styles.textBtn}>{sendText}</Text>
-				</Button>
-		);
+	  const { send, beforeSendAnyway } = sendFuncs(store, web3t);
+	  const withdraw = async () => {
+		try {
+		  store.current.send.error = "";
+			beforeSendAnyway();
+		} catch (e) {
+		  console.error(e);
+		  Toast.show({text: e.message});
+		}
+	  };
+	  const lang = getLang(store);
+	  const sendText = lang.send;
+	  const disabled = (!((send.error.length === 0) && (+send.amountSend > 0))) || (send.amountChanging === true) || (store.current.creatingTransaction === true);
+	  return (
+		  <Button block style={disabled ? styles.buttonInactive : styles.btnVelasActive} onPress={withdraw} disabled={disabled}>
+			<Text style={styles.textBtn}>{sendText}</Text>
+		  </Button>
+	  );
 	};
 
 	const InputAddressWithdraw = ({ send }) => (
@@ -239,7 +239,6 @@ export default ({ store, web3t }) => {
 	const balance = wallet.balance;
 	const r_amount = roundNumber(balance, {decimals: 6});
 	const walletBalance = roundHuman(r_amount);
-	const ScreenTitle = send.isSwap ? "Swap" : lang.send;
 	return (
 			<View style={styles.viewFlex}>
 				<Background fullscreen={true}/>
@@ -248,7 +247,7 @@ export default ({ store, web3t }) => {
 						<BackButton onBack={back} style={styles.arrowHeaderIconBlack} />
 					</Left>
 					<Body style={styles.viewFlexHeader}>
-						<Title style={styles.titleBlack}>{ScreenTitle}</Title>
+						<Title style={styles.titleBlack}>{lang.send}</Title>
 					</Body>
 					<Right style={styles.viewFlexHeader}>
 						<Thumbnail square small source={{ uri: wallet.coin.image }} />

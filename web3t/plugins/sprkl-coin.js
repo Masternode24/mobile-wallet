@@ -9,7 +9,7 @@
     mask: '0x0000000000000000000000000000000000000000',
     api: {
       provider: 'erc20',
-      web3Provider: 'https://mainnet.infura.io/v3/843d2e25655c47c7851744f65ce95837',
+      web3Provider: 'https://mainnet.infura.io/v3/009278d1b77a4af48536f1f772926648',
       url: 'https://etherscan.io',
       apiUrl: 'https://api.etherscan.io/api'
     }
@@ -22,7 +22,7 @@
     mask: '0x0000000000000000000000000000000000000000',
     api: {
       provider: 'erc20',
-      web3Provider: "https://ropsten.infura.io/v3/843d2e25655c47c7851744f65ce95837",
+      web3Provider: "https://ropsten.infura.io/v3/009278d1b77a4af48536f1f772926648",
       url: "https://ropsten.etherscan.io",
       apiUrl: "http://api-ropsten.etherscan.io/api"
     }
@@ -31,7 +31,6 @@
   out$.testnet = testnet = ropsten;
   out$.type = type = 'coin';
   out$.enabled = enabled = true;
-  out$.nickname = "sprkl";
   out$.token = token = 'sprkl';
   out$.image = image = './res/sparkle-ethnamed.png';
   out$.usdInfo = usdInfo = 1;

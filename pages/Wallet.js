@@ -33,6 +33,8 @@ import BackButton from "../components/BackButton.js";
 import { LinearGradient } from "expo-linear-gradient";
 import roundNumber from "../round-number";
 import roundHuman from "../wallet/round-human";
+import {swap} from "../wallet/wallet-funcs.js";
+import {swapIcon} from "../wallet/icons.js";
 import {filter, map, objToPairs, pairsToObj} from "prelude-ls";
 import tokenNetworks from "../wallet/swapping/networks";
 
@@ -43,13 +45,10 @@ export default ({ store, web3t }) => {
 	const wallet = wallets.find((x) => x.coin.token === store.current.wallet);
 	let hasSwap = wallet.network.networks != null && Object.keys(wallet.network.networks).length > 0
 	/*******  Listeners  ********/
+	const usdRate = wallet.usdRate || 0;
 	const sendLocal = () => {
-		store.current.send.isSwap = false;
-		store.current.send.chosenNetwork = null;
-		store.current.send.contractAddress = null;
 		if(wallet.balance == "..") return;
 		store.current.send["to"] = "";
-		store.current.send.data = null;
 		store.current.send.amountSend = '0';
 		store.current.send.amountSendUsd = '0';
 		store.current.send.amountSendFee = '0';
@@ -62,8 +61,8 @@ export default ({ store, web3t }) => {
 	};
 
 	const swapClick = () => {
+		console.log("swap click!");
 		store.current.send.contractAddress = null;
-		store.current.send.data = null;
 		store.current.send.isSwap = true;
 		if (wallet == null) {
 			// return alert("Not yet loaded");
@@ -113,16 +112,6 @@ export default ({ store, web3t }) => {
 	const changePage = (tab) => () => {
 		store.current.page = tab;
 	};
-
-
-
-
-
-
-
-
-
-
 	const refreshToken = () => {
 		store.current.refreshingBalances = true;
 		web3t.refresh((err,data) => {
@@ -130,6 +119,7 @@ export default ({ store, web3t }) => {
 			console.log("refresh done", err, data);
 		})
 	}
+	//TODO: Refactor this piece of shit later.
 	const hardCodedStrategyGetAddessPrefix = () => {
 		const mapping = {
 			vlx: "wallet"
@@ -241,10 +231,7 @@ export default ({ store, web3t }) => {
 											<TouchableOpacity
 													onPress={swapClick}
 													style={{ ...styles.touchables, backgroundColor: Images.colorBlue }}>
-												<Image
-														source={Images.swapImage}
-														style={styles.sizeIconBtnSwap}
-												/>
+												<Thumbnail square small source={{uri: swapIcon}} style={styles.sizeIconBtn} />
 											</TouchableOpacity>
 											<Text style={styles.textTouchable}>Swap</Text>
 										</View>

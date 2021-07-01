@@ -4,9 +4,9 @@
   ref$ = require('prelude-ls'), objToPairs = ref$.objToPairs, pairsToObj = ref$.pairsToObj, each = ref$.each, map = ref$.map, filter = ref$.filter;
   ref$ = require('fs'), writeFile = ref$.writeFile, readFile = ref$.readFile, exists = ref$.exists;
   Command = require('commander').Command;
-  translate = require('./translate.ls');
-  newword = require('./newword.ls');
-  sync = require('./sync.ls');
+  translate = require('./translate.js');
+  newword = require('./newword.js');
+  sync = require('./sync.js');
   readFile = require('fs').readFile;
   filename = "./langs/langs.json";
   cb = console.log;

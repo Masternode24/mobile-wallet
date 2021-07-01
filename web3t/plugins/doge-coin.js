@@ -40,7 +40,6 @@
   };
   out$.type = type = 'coin';
   out$.enabled = enabled = false;
-  out$.nickname = "doge";
   out$.token = token = 'doge';
   out$.image = image = './res/doge-ethnamed.png';
   out$.usdInfo = usdInfo = "url(https://min-api.cryptocompare.com/data/pricemulti?fsyms=DOGE&tsyms=USD).DOGE.USD";
