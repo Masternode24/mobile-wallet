@@ -159,6 +159,27 @@ export default ({ store, web3t }) => {
           <LocalAuthListView store={store}/>
 
           <Separator bordered style={styles.seperatorStyle}>
+            <Text style={styles.styleTxtSeparator}>Networks</Text>
+          </Separator>
+
+          <ListItem icon style={styles.heightListItem} underlayColor={Images.velasColor2}>
+            <Left>
+              <Icon name="ios-log-out" style={styles.styleTxtSettings}/>
+            </Left>
+            <Body style={styles.heightListItem}>
+              <Text style={styles.txtSettings}>Mainnet</Text>
+            </Body>
+            <Right style={styles.heightListItem} />
+          </ListItem>
+          <ListItem icon last style={styles.heightListItem} underlayColor={Images.velasColor2}>
+            <Left/>
+            <Body style={styles.heightListItem}>
+              <Text style={styles.txtSettings}>Custom</Text>
+            </Body>
+            <Right style={styles.heightListItem} />
+          </ListItem>
+
+          <Separator bordered style={styles.seperatorStyle}>
             <Text style={styles.styleTxtSeparator}>{lang.security}</Text>
           </Separator>
 

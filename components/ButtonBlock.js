@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, Platform } from "react-native";
+import { StyleSheet, Text, Platform, TouchableOpacity } from "react-native";
 import { Button } from "native-base";
 import Images from "../Images";
 
