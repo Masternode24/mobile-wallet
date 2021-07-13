@@ -37,8 +37,8 @@ export default observer(({ store, isStaked, ...props }) => {
 //     );
 //   };
   return (
-    <View style={{backgroundColor: '#1F2853', height: 50, flexDirection: "row", justifyContent: "center"}}>
-        <View style={{flex: 0.3, backgroundColor: "red"}}><PickerSetComponent/></View>
+    <View style={{backgroundColor: '#1F2853', height: 140, flexDirection: "row", justifyContent: "center"}}>
+        <View style={{flex: 0.3, backgroundColor: "red"}}><PickerSetComponent item='staking' icon='staking'/></View>
         <View style={{flex: 0.3, backgroundColor: "green"}}></View>
         <View style={{flex: 0.3, backgroundColor: "pink"}}></View>
     </View>

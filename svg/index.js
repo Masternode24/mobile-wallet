@@ -10,3 +10,6 @@ export * from './wallet-icon';
 export * from './history-icon';
 export * from './settings-icon';
 export * from './velas-icon';
+export * from './header-staking';
+export * from './header-network';
+export * from './header-epoch';
