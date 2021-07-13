@@ -1,11 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { Container, Text, Content, List, ListItem} from "native-base";
 import Footer from "./Footer.js";
-import { StyleSheet, Dimensions, View, RefreshControl, ActivityIndicator, Modal, Platform } from "react-native";
+import { StyleSheet, Dimensions, View, RefreshControl, ActivityIndicator, Modal, Platform, Alert } from "react-native";
 import getLang from "../wallet/get-lang.js";
 import Images from "../Images.js";
 import StakeItem from "../components/StakeItem.js";
 import Header from "../components/Header.js";
+import StakeBar from "../components/StakeBar.js";
 // import Spinner from "../components/Spinner.js";
 
 export default ({ store, web3t, props }) => {
@@ -78,10 +79,11 @@ export default ({ store, web3t, props }) => {
   const refreshStakeItem = () => {
     stakingStore.reloadWithRetry();
   };
-
+  
   return (
     <Container>
       <Header title={lang.titleStake || "Stake"} />
+      <StakeBar/>
       <Content style={{ backgroundColor: Images.velasColor4 }}
       refreshControl={
         <RefreshControl

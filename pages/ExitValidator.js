@@ -31,8 +31,9 @@ export default ({ store, web3t, props }) => {
   }
   // console.log('store.amountWithdraw', store.amountWithdraw)
   const onPressButton = async () => {
+    // debugger;
     if (!store.amountWithdraw) return null;
-    if (store.amountWithdraw > TOTAL_STAKE) return null;
+    if (parseFloat(store.amountWithdraw) > parseFloat(TOTAL_STAKE)) return null;
     const amountWithdraw = store.amountWithdraw;
     spin(
       store,
