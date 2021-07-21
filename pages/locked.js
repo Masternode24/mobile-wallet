@@ -3,7 +3,6 @@ import {
   Text,
   View,
   Item,
-  Input,
   Icon,
   Button,
   Toast
@@ -21,6 +20,8 @@ import spin from "../utils/spin.js";
 import Images from '../Images.js';
 import getLang from '../wallet/get-lang.js';
 import Header from '../components/Header'
+import Input from '../components/InputSecure'
+
 
 export default ({ store, web3t }) => {
   const lang = getLang(store);
@@ -235,22 +236,13 @@ export default ({ store, web3t }) => {
     return (
       <Item style={styles.borderItem}>
         <Icon active name='lock' style={{color: "#fff"}}/>
-        <Input
-          onChangeText={text => handleChangePin(text)}
-          value={store.current.pin}
-          autoCompleteType="off"
-          minLength={6}
-          // autoFocus
-          secureTextEntry={true}
-          returnKeyType="done"
-          placeholder={lang.placeholderSignup}
-          keyboardType="default"
-          placeholderTextColor="rgba(255,255,255,0.60)"
-          style={styles.inputSize}
-          selectionColor={"#fff"}
-          keyboardAppearance="dark"
-        />
+         <Input
+            placeholder={lang.placeholderSignup}
+            value={store.current.pin}
+            onChangeText={text => handleChangePin(text)}
+          />
       </Item>
+
     );
   };
 

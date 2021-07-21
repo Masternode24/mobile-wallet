@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Dimensions, Text, Clipboard, Vibration, Alert, ScrollView } from "react-native";
+import { StyleSheet, View, Dimensions, Text, Clipboard, Vibration, Alert, ScrollView, ActivityIndicator } from "react-native";
 import { Icon, Tab, Tabs, TabHeading, ScrollableTab, Container } from "native-base";
 import { Observer, observer } from "mobx-react";
 import Images from "../Images";
-import { ChartIcon, ValidatorsIcon, VelasIcon } from "../svg/index";
+import { ChartIcon, PercentIcon, PlusIcon, ValidatorsIcon, VelasIcon } from "../svg/index";
 import ValidatorCard from "./ValidatorCard";
 import ButtonBlock from "../components/ButtonBlock.js";
 import DetailsValidatorComponent from "../components/DetailsValidatorComponent.js";
@@ -15,25 +15,27 @@ import spin from "../utils/spin.js";
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 
+
 const GRAY_COLOR = "rgba(255, 255, 255, 0.18)";
 
 
 export default ({ store, web3t }) => {
   const { stakingStore } = store;
-  
+
   const changePage = (tab) => () => {
     store.current.page = tab;
   };
-
+  
   const [index, setIndex] = React.useState(0);
+  const lang = getLang(store);
   const [routes] = React.useState([
-    { key: 'first', title: 'Stake', type: "STAKE" },
-    { key: 'second', title: 'Withdrawals', type: "WITHDRAW" },
-    { key: 'third', title: 'Rewards', type: "REWARDS"}
+    { key: 'first', title: lang.tabStake || "Stake", type: "STAKE" },
+    { key: 'second', title: lang.tabWithdrawals || 'Withdrawals', type: "WITHDRAW" },
+    { key: 'third', title: lang.tabRewards || 'Rewards', type: "REWARDS"}
   ]);
 
-  
-  const lang = getLang(store);
+
+  // const lang = getLang(store);
   return (
     <Observer>{() => {
       if (stakingStore.isRefreshing) return null;
@@ -45,13 +47,13 @@ export default ({ store, web3t }) => {
 
       const WITHDRAW_REQUESTED = details.totalWithdrawRequested;
       const AVAILABLE_WITHDRAW = details.availableWithdrawRequested;
-    
+
       const ADDRESS = details.address;
       const onPressWithdraw = async () => {
         if (!details.availableWithdrawRequested) return null;
         spin(
           store,
-          'Withdrawal in progress',
+          lang.progressWithdraw || 'Withdrawal in progress',
           async (cb) => {
           try {
             const result = await stakingStore.withdrawRequested(ADDRESS);
@@ -64,14 +66,14 @@ export default ({ store, web3t }) => {
         )((err, result, result1) => {
           if (err) {
             setTimeout(() => {
-          Alert.alert('Something went wrong. Please contact support. You can still use web interface for full staking support.');
-        }, 1);
+          Alert.alert(lang.wrong || 'Something went wrong. Please contact support. You can still use web interface for full staking support.');
+        }, 1000);
             console.error(err);
             return;
           }
           changePage("confirmWithdrawal")();
         });
-        
+
       }
 
       const copyAddress = async () => {
@@ -80,7 +82,7 @@ export default ({ store, web3t }) => {
         Vibration.vibrate(DURATION);
         Alert.alert(lang.copied, "", [{ text: lang.ok }]);
       };
-      const Stake = () => {
+      const Stake = observer(() => {
         return (
         <ScrollView>
           <View style={style.container}>
@@ -96,8 +98,9 @@ export default ({ store, web3t }) => {
             <ValidatorCard
               value={QUALITY_VALUE}
               subtitle={lang.quality || "QUALITY"}
-              info={"0 means average"}
-              cardSymbol={"+"}
+              info={lang.infoMeans || "0 means average"}
+              cardIcon={<PlusIcon />}
+
             />
             <ValidatorCard
               value={ANNUAL_RATE}
@@ -106,7 +109,8 @@ export default ({ store, web3t }) => {
                 lang.info3 ||
                 "APR is calculated based on the results of the previous epoch"
               }
-              cardSymbol={"%"}
+              cardIcon={<PercentIcon />}
+              subtitleSmall
             />
             <ValidatorCard
               value={ACTIVE_STAKE}
@@ -119,12 +123,13 @@ export default ({ store, web3t }) => {
               link={
                 "https://support.velas.com/hc/en-150/articles/360021044820-Delegation-Warmup-and-Cooldown"
               }
-              cardSymbol={"%"}
+              cardIcon={<PercentIcon />}
+              subtitleSmall
             />
           </View>
             <ButtonBlock
               type={"STAKE_MORE"}
-              text={lang.stakeMore || "Stake More"}
+              text={details.totalActiveStake ? lang.stakeMore || "Stake More" : "Loading..."}
               onPress={changePage("sendStake")}
             />
             { details.totalAvailableForWithdrawRequestStake && details.totalAvailableForWithdrawRequestStake.gte(stakingStore.rent) &&
@@ -136,20 +141,20 @@ export default ({ store, web3t }) => {
             }
         </ScrollView>
         )
-      };
-      const Withdrawals  = () => {
+      });
+      const Withdrawals  = observer(() => {
         return (
         <ScrollView>
           <View style={style.container}>
             <ValidatorCard
-              value={WITHDRAW_REQUESTED ? formatStakeAmount(WITHDRAW_REQUESTED) : ''}
+              value={WITHDRAW_REQUESTED ? formatStakeAmount(WITHDRAW_REQUESTED) : '...'}
               subtitle={lang.totalWithdraw || "TOTAL WITHDRAW REQUESTED"}
               cardIcon={<VelasIcon />}
               info={lang.totalWithdraw || "TOTAL WITHDRAW REQUESTED"}
               subtitleSmall
             />
             <ValidatorCard
-              value={AVAILABLE_WITHDRAW ? formatStakeAmount(AVAILABLE_WITHDRAW) : ''}
+              value={AVAILABLE_WITHDRAW ? formatStakeAmount(AVAILABLE_WITHDRAW) : '...'}
               subtitle={lang.availableWithdraw || "AVAILABLE FOR WITHDRAW"}
               cardIcon={<VelasIcon />}
               info={lang.availableWithdraw || "AVAILABLE FOR WITHDRAW"}
@@ -165,7 +170,7 @@ export default ({ store, web3t }) => {
           }
         </ScrollView>
         )
-      };
+      });
       const Rewards  = () => {
         return (
         <>
@@ -223,7 +228,7 @@ export default ({ store, web3t }) => {
           }
           store={store}
         />
-      {!details.myStake.isZero() ? 
+      {!details.myStake.isZero() ?
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
@@ -247,8 +252,8 @@ export default ({ store, web3t }) => {
           <ValidatorCard
             value={QUALITY_VALUE}
             subtitle={lang.quality || "QUALITY"}
-            info={"0 means average"}
-            cardSymbol={"+"}
+            info={lang.infoMeans || "0 means average"}
+            cardIcon={<PlusIcon />}
           />
       </View>
         <ButtonBlock
@@ -285,7 +290,7 @@ const style = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 15,
   },
-  btnBottom: {  
+  btnBottom: {
     marginBottom: 20
   },
 });

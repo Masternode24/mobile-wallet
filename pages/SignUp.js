@@ -5,7 +5,6 @@ import {
   View,
   Icon,
   Item,
-  Input,
   Body,
   Left,
   Right,
@@ -20,6 +19,7 @@ import getLang from '../wallet/get-lang.js';
 import * as SecureStore from "expo-secure-store";
 import PickerSetLang from "../components/PickerSetLang.js";
 import Header from '../components/Header'
+import Input from '../components/InputSecure'
 
 
 const buttonActive = store => {
@@ -108,16 +108,7 @@ export default ({ store }) => {
         <Input
           value={store.current.signUpInputPinField}
           onChangeText={text => handleChangePin(text)}
-          secureTextEntry={true}
-          returnKeyType="done"
-          minLength={6}
-          // autoFocus
-          keyboardType="default"
-          keyboardAppearance="dark"
           placeholder={lang.placeholderSignup}
-          placeholderTextColor="rgba(255,255,255,0.60)"
-          style={styles.inputSize}
-          selectionColor="#fff"
         />
       </Item>
     );

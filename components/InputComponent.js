@@ -31,13 +31,9 @@ export default ({isWithdraw, ...props}) => {
       </Item>
 
       <View style={style.containerBottomInput}>
-        <View style={style.subContainerInput}>
           <Text style={style.labelTextBottom}>
-            {props.sub_text + ":"} {isWithdraw ? props.total_stake : props.available_balance}
+            {props.sub_text + ":"} {isWithdraw ? props.total_stake : props.available_balance}{" "}<Text style={style.labelTokenStyle}>{props.token}</Text>
           </Text>
-          <Image source={Images.logo} style={style.labelLogo} />
-          <Text style={style.labelTokenStyle}>{props.token}</Text>
-        </View>
       </View>
     </>
   );
@@ -46,10 +42,9 @@ export default ({isWithdraw, ...props}) => {
 const style = StyleSheet.create({
   containerBottomInput: {
     marginLeft: 20,
+    marginRight: 20,
     marginTop: 10,
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
   subContainerInput: {
     flexDirection: "row",

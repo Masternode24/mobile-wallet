@@ -7,6 +7,7 @@ import {
 } from "react-native-responsive-screen";
 import Constants from "expo-constants";
 import Images from "./Images.js";
+import normalize from 'react-native-normalize';
 
 export default StyleSheet.create({
   size: 24,
@@ -2643,10 +2644,10 @@ export default StyleSheet.create({
   touchables: {
         alignItems: "center",
         justifyContent: "center",
-        width: 50,
-        height: 50,
+        width: normalize(50),
+        height: normalize(50),
         backgroundColor: Images.colorOrange,
-        borderRadius: 30,
+        borderRadius: normalize(30),
      
   },
   headerSearchBar: {
@@ -2790,7 +2791,7 @@ export default StyleSheet.create({
     fontWeight: "500",
     color: "#fff",
     fontFamily: "Fontfabric-NexaRegular",
-    lineHeight: 30
+    // lineHeight: 30
   },
   titleHistory: {
     fontSize: 17,
@@ -4752,14 +4753,14 @@ export default StyleSheet.create({
     color: "#fff",
   },
   sizeIconBtn: {
-    width: 64 / 2.5,
-    height: 36 /2.5,
-    left: 1,
+    width: normalize(64 / 2.5),
+    height: normalize(36 /2.5),
+    left: normalize(1),
   },
 	sizeIconBtnSwap: {
-		width: 64 / 2.5,
-		height: 25,
-		left: 1,
+		width: normalize(64 / 2.5),
+		height: normalize(25),
+		left: normalize(1),
 	},
   sizeIconBtn1: {
     width: 64 / 4,
@@ -4767,10 +4768,10 @@ export default StyleSheet.create({
     left: 30,
   },
   sizeIconScanBtn: {
-    width: 65 / 2.5,
-    height: 65 / 2.5,
+    width: normalize(65 / 2.5),
+    height: normalize(65 / 2.5),
     left: 0,
-    bottom: 1
+    bottom: normalize(1)
   },
   sizeIconSendBtn: {
     width: 65 / 2.5,
@@ -5933,6 +5934,14 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: Platform.OS === 'ios' ? "bold" : null,
     width: "160%",
+    textAlign: 'center'
+  },
+  headerTitleSmall: {
+    color: "#fff",
+    fontFamily: "Fontfabric-NexaBold",
+    fontSize: 18,
+    fontWeight: Platform.OS === 'ios' ? "bold" : null,
+    width: Platform.OS === 'ios' ? "200%" : "170%",
     textAlign: 'center'
   },
   marginTopAndroid: {

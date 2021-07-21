@@ -52,9 +52,10 @@ class StakingStore {
       vlxNativeBalance: observable,
       isRefreshing: observable,
       accounts: observable,
-      openedValidatorAddress: observable,
-      // isLoaded: observable
+      openedValidatorAddress: observable
     });
+    this.startRefresh = action(this.startRefresh);
+    this.endRefresh = action(this.endRefresh);
     this.init();
   }
 
@@ -104,14 +105,9 @@ class StakingStore {
   }
 
   async reload() {
-    this.validators = null;
-    this.accounts = null;
-    this.rent = null;
-    this.vlxNativeBalance = null;
-    this.vlxEvmBalance = null;
+    this.startRefresh()
 
     const balanceRes = await this.connection.getBalance(this.publicKey);
-    this.vlxNativeBalance = new BN(balanceRes + '', 10);
     const balanceEvmRes = await fetch('https://explorer.velas.com/rpc', {
       method: 'POST',
       headers: {
@@ -121,7 +117,6 @@ class StakingStore {
       body: `{"jsonrpc":"2.0","id":${Date.now()},"method":"eth_getBalance","params":["${this.evmAddress}","latest"]}`
     });
     const balanceEvmJson = await balanceEvmRes.json();
-    this.vlxEvmBalance = new BN(balanceEvmJson.result.substr(2), 16).div(new BN(1e9));
     const { current, delinquent } = await this.connection.getVoteAccounts();
     const filter = {memcmp: {
       offset: 0xc,
@@ -129,7 +124,7 @@ class StakingStore {
     }};
     const nativeAccounts = await this.connection.getParsedProgramAccounts(
       solanaWeb3.StakeProgram.programId,
-      { filters: [filter] }
+      { filters: [filter], commitment: 'processed' }
     );
     const filteredAccounts = nativeAccounts.filter(({ account }) => {
       const { authorized } = account.data.parsed.info.meta;
@@ -158,6 +153,20 @@ class StakingStore {
       validator.addStakingAccount(account);
     }
     const rent = await this.connection.getMinimumBalanceForRentExemption(200);
+    this.endRefresh(balanceRes, balanceEvmJson, rent, validators, stakingAccounts);
+  }
+
+  startRefresh = () => {
+    this.validators = null;
+    this.accounts = null;
+    this.rent = null;
+    this.vlxNativeBalance = null;
+    this.vlxEvmBalance = null;
+  }
+
+  endRefresh = (balanceRes, balanceEvmJson, rent, validators, stakingAccounts) => {
+    this.vlxNativeBalance = new BN(balanceRes + '', 10);
+    this.vlxEvmBalance = new BN(balanceEvmJson.result.substr(2), 16).div(new BN(1e9));
     this.rent = new BN(rent);
     this.validators = validators;
     this.accounts = stakingAccounts;
@@ -447,7 +456,7 @@ class StakingStore {
     return amount.add(PRESERVE_BALANCE).sub(this.vlxNativeBalance);
   }
 
-  async splitStakeAccount(stakeAccount, lamports){
+  async splitStakeAccountTransaction(stakeAccount, lamports){
     if (typeof lamports === 'string') {
       lamports = new BN(lamports, 10);
     }
@@ -471,11 +480,11 @@ class StakingStore {
       base: authorizedPubkey,
     };
 
-    transaction = solanaWeb3.StakeProgram.split(params);
-    return await this.sendTransaction(transaction);
+    return solanaWeb3.StakeProgram.split(params);
+    // return await this.sendTransaction(transaction);
   }
 
-  async undelegate(stakePubkey) {
+  async undelegateTransaction(stakePubkey) {
     const transaction = new solanaWeb3.Transaction();
     const authorizedPubkey = this.publicKey;
 
@@ -483,14 +492,15 @@ class StakingStore {
         authorizedPubkey,
         stakePubkey,
     }));
-
-    return await this.sendTransaction(transaction);
+    return transaction;
+    // return await this.sendTransaction(transaction);
   };
 
   async requestWithdraw(address, amount) {
     if (!this.validators) {
       throw new Error('Not loaded');
     }
+    const transaction = new solanaWeb3.Transaction();
     const validator = this.validators.find(v => v.address === address);
     if (!validator) {
       throw new Error('Not found');
@@ -513,14 +523,23 @@ class StakingStore {
     while (!amount.isZero() && !amount.isNeg()) {
       const account = sortedAccounts.pop();
       if (amount.gte(account.myStake)) {
-        await this.undelegate(account.publicKey);
+        transaction.add(
+          await this.undelegateTransaction(account.publicKey)
+        );
         amount = amount.sub(account.myStake);
       } else {
-        await this.splitStakeAccount(account, account.myStake.sub(amount));
-        await this.undelegate(account.publicKey);
+        transaction.add(
+          await this.splitStakeAccountTransaction(account, account.myStake.sub(amount))
+        );
+        transaction.add(
+          await this.undelegateTransaction(account.publicKey)
+        );
         break;
       }
     }
+
+    await this.sendTransaction(transaction);
+    await new Promise(resolve => setTimeout(resolve, 2000));
     await this.reloadWithRetry();
   }
 
@@ -548,6 +567,7 @@ class StakingStore {
       }
     }
     const res = await this.sendTransaction(transaction);
+    await new Promise(resolve => setTimeout(resolve, 2000));
     await this.reloadWithRetry();
     return res;
   }

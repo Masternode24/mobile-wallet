@@ -86,7 +86,7 @@ export default ({ store, web3t, props }) => {
             : null } */}
           {parseFloat(store.amount) && amountToBN(store.amount).gte(AVAILABLE_BALANCE.sub(new BN(1e9))) ?
           <Notice
-              text={"When stake all funds, you must leave about 1 VLX to pay the commission!"}
+              text={lang.dontStake || "Don’t stake all coins, leave some (~1 VLX) to pay transaction fees in the future and be able to initiate stake withdrawals."}
               icon="warning"
             /> : null }
           <ButtonBlock type={!store.amount || parseFloat(store.amount) && amountToBN(store.amount).gte(AVAILABLE_BALANCE.sub(new BN(1e9))) ? "DISABLED" : "NEXT"} text={lang.continue || "Next"} onPress={onPressButton} />

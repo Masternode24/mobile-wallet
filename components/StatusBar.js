@@ -6,16 +6,16 @@ export default class app extends Component {
   render() {
     if (Platform.OS === 'ios'/* && !this.props.barStyle*/) {
       return (
-         <StatusBar barStyle = "dark-content"
-           hidden = {true}
+         <StatusBar barStyle = 'light-content'
+           hidden={false}
            translucent = {true}
            {...this.props}
          />
      );
     }
    return (
-      <StatusBar barStyle = "dark-content"
-        backgroundColor="white"
+      <StatusBar barStyle = "light-content"
+        backgroundColor="transparent"
         translucent = {true}
         {...this.props}
       />

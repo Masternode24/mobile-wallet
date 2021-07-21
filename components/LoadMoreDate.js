@@ -45,8 +45,14 @@ export default ({ store, web3t }) => {
     const lang = getLang(store);
     let wallet = store.current.account.wallets[store.current.walletIndex];
     const currency = (wallet.coin.nickname != null ? wallet.coin.nickname : wallet.coin.token).toUpperCase();
-    const checkType = type => {
-      switch (type) {
+    const checkType = ({type, to, txType}) => {
+		if (txType) {
+			return <Text style={[styles.txtSizeHistory, {textTransform: "capitalize" }]}>{txType}</Text>;
+		}
+		if (to === "V8sA8Q5jR44E4q6S59eUhhSJQiRBBFdZA8" || to === "0x56454c41532d434841494e000000000053574150")
+			return <Text style={styles.txtSizeHistory}>{lang.swapEvm || "Swap EVM to Native"}</Text>;
+
+		switch (type) {
         case "IN":
           return <Text style={styles.txtSizeHistory}>{lang.received}</Text>;
         case "OUT":
@@ -99,6 +105,7 @@ export default ({ store, web3t }) => {
     }
 
     const renderTransaction = (transaction) => {
+		debugger;
 			var r_amount = roundNumber(transaction.amount, {decimals: 2});
 			var amount = roundHuman(r_amount);
 			var curr = transaction.token;
@@ -124,7 +131,7 @@ export default ({ store, web3t }) => {
 				<Left>{thumbnail(transaction.type)}</Left>
 				<Body style={{ paddingRight: 10 }}>
 					<Text style={styles.txtSizeHistory}>
-					{checkType(transaction.type)}
+					{checkType(transaction)}
 					</Text>
 					<Text style={styles.constDate}>
 					{transaction.time

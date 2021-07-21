@@ -21,7 +21,7 @@ export default ({ store, web3t, props }) => {
   const okBtn = async () => {
     spin(
       store,
-      'Validator is loading',
+      lang.progressValidator || 'Validator is loading',
       async (cb) => {
         try {
           const result = await stakingStore.reloadWithRetry();
@@ -33,7 +33,7 @@ export default ({ store, web3t, props }) => {
     )((err, result) => {
       if (err) {
         setTimeout(() => {
-          Alert.alert('Something went wrong. Please contact support. You can still use web interface for full staking support.');
+          Alert.alert(lang.wrong || 'Something went wrong. Please contact support. You can still use web interface for full staking support.');
         }, 1000);
         console.error(err);
         return;
@@ -45,9 +45,8 @@ export default ({ store, web3t, props }) => {
   return (
     <Container>
       <Header
-        // onBack={back}
-        // greenBack
         title={lang.exitValidator || "Exit from Validator"}
+        smallTitle={lang.exitValidator.length > 15 ? true : false}
       />
 
       <Content style={style.contentBg}>
@@ -57,7 +56,7 @@ export default ({ store, web3t, props }) => {
             {lang.exitValidatorTitle || "Withdrawal request has been submitted successfully. It will start cooling down from the next epoch."}
           </Text>
           <Text style={{ ...style.title, marginTop: 20 }}>
-            {lang.exitValidatorSubTitle || "Please navigate the withdrawals tab to monitor the progress."}
+            {lang.exitValidatorSubTitle || "Please navigate to the withdrawals tab to monitor the progress."}
           </Text>
         </View>
         <View style={style.buttonBottom}>

@@ -245,5 +245,16 @@
     youDidntAgree: "동의하지 않습니다.",
     sendingFunds: "자금 전송",
     availableStaking: "스테이킹을 허락하다",
+    swapEvm: "Swap EVM to Native",
+    infoMeans: "0 means average",
+    wrong: "Something went wrong. Please contact support. You can still use web interface for full staking support.",
+    progressWithdraw: "Withdrawal in progress",
+    progressStaking: "Staking in progress",
+    progressValidator: "Validator is loading",
+    swapBtn: "Swap",
+    withdrawal: "Withdrawal",
+    withdrawalSuccessfully: "Withdrawal has been submitted successfully. It may take a few minutes to appear on your balance.",
+    dontStake: "Don’t stake all coins, leave some (~1 VLX) to pay transaction fees in the future and be able to initiate stake withdrawals.",
+    noticeTrying: "You are trying to withdraw more funds than you have."
   };
 }.call(this));

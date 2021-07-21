@@ -21,7 +21,7 @@ export default ({ store, web3t, props }) => {
 
   return (
     <Container>
-      <Header onBack={changePage("confirmStake")} title={lang.stakingEnterance || "Staking Enterance"} greenBack/>
+      <Header title={lang.stakingEnterance || "Staking Enterance"}/>
       <Content style={style.contentBg}>
         <View style={style.container}>
           <StakingEnteranceIcon />

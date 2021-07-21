@@ -48,7 +48,7 @@ export default observer(({ store }) => {
     return (
       <View
         style={{
-          marginTop: "40%",
+          marginTop: "10%",
         }}
       >
         <Text style={styles.emptyMessageStyle}>

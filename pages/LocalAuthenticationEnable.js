@@ -3,7 +3,6 @@ import {
   Text,
   View,
   Item,
-  Input,
   Body,
   Left,
   Right,
@@ -26,7 +25,8 @@ import * as SecureStore from 'expo-secure-store';
 import Fingerprint from "../components/Fingerprint.js";
 import * as LocalAuthentication from 'expo-local-authentication';
 import Background from "../components/Background.js";
-import Header from '../components/Header'
+import Header from '../components/Header';
+import Input from '../components/InputSecure';
 
 
 
@@ -149,19 +149,9 @@ function RequestPin({store, web3t}) {
       <Item style={styles.borderItem}>
         <Icon active name='lock' style={{color: "#fff"}}/>
         <Input
-          onChangeText={setPin}
           value={pin}
-          autoCompleteType="off"
-          minLength={6}
-          // autoFocus
-          secureTextEntry={true}
-          returnKeyType="done"
+          onChangeText={setPin}
           placeholder={lang.placeholderSignup}
-          keyboardType="default"
-          placeholderTextColor="rgba(255,255,255,0.60)"
-          style={styles.inputSize}
-          selectionColor={"#fff"}
-          keyboardAppearance="dark"
         />
       </Item>
     );

@@ -25,14 +25,14 @@ export default ({ store, web3t, props }) => {
       <Header
         // onBack={back}
         // greenBack
-        title={"Withdrawal"}
+        title={lang.withdrawal || "Withdrawal"}
       />
 
       <Content style={style.contentBg}>
         <View style={style.container}>
           <WithdrawalRequest />
           <Text style={style.title}>
-            {"Withdrawal has been submitted successfully. It may take a few minutes to appear on your balance."}
+            {lang.withdrawalSuccessfully || "Withdrawal has been submitted successfully. It may take a few minutes to appear on your balance."}
           </Text>
         </View>
         <View style={style.buttonBottom}>

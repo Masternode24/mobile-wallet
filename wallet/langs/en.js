@@ -204,7 +204,7 @@
 	stakingEnterance: "Staking Enterance",
 	noticeExitValidator: "You already have a withdrawal request. This withdrawal  is going to be combined with the previous one.",
 	exitValidator: "Exit from Validator",
-	exitValidatorSubTitle: "Please navigate the withdrawals tab to monitor the progress.",
+	exitValidatorSubTitle: "Please navigate to the withdrawals tab to monitor the progress.",
 	exitValidatorTitle: "Withdrawal request has been submitted successfully. It will start cooling down from the next epoch.",
 	epoch: "# Epoch",
 	reward: "Reward",
@@ -231,5 +231,16 @@
 	youDidntAgree: "You didn't agree",
 	sendingFunds: "Sending funds",
 	availableStaking: "Available for staking",
+	swapEvm: "Swap EVM to Native",
+	infoMeans: "0 means average",
+	wrong: "Something went wrong. Please contact support. You can still use web interface for full staking support.",
+	progressWithdraw: "Withdrawal in progress",
+	progressStaking: "Staking in progress",
+	progressValidator: "Validator is loading",
+	swapBtn: "Swap",
+	withdrawal: "Withdrawal",
+	withdrawalSuccessfully: "Withdrawal has been submitted successfully. It may take a few minutes to appear on your balance.",
+	dontStake: "Don’t stake all coins, leave some (~1 VLX) to pay transaction fees in the future and be able to initiate stake withdrawals.",
+	noticeTrying: "You are trying to withdraw more funds than you have."
   };
 }).call(this);

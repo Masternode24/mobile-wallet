@@ -241,7 +241,7 @@ export default ({ store, web3t }) => {
 	const balance = wallet.balance;
 	const r_amount = roundNumber(balance, {decimals: 6});
 	const walletBalance = roundHuman(r_amount);
-	const ScreenTitle = send.isSwap ? "Swap" : lang.send;
+	const ScreenTitle = send.isSwap ? lang.swapBtn : lang.send;
 	return (
 			<View style={styles.viewFlex}>
 				<Background fullscreen={true}/>

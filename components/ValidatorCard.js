@@ -33,8 +33,13 @@ export default (props) => {
       
       <View
         style={{
-          alignSelf: "flex-end",
-          paddingRight: 5,
+          // alignSelf: 'center',
+          // paddingRight: 5,
+          // paddingTop: 5,
+          right: 5,
+          top: 5,
+          position: "absolute",
+          zIndex: 99999
         }}
       >
         <Tooltip
@@ -73,7 +78,7 @@ export default (props) => {
 
       <CardItem style={style.bgCard}>
         <Left style={{ flex: 0 }} />
-        <Body style={{ flex: 1, height: 20 }}>
+        <Body style={{ flex: 1 }}>
           {props.cardSymbol && (
             <Text style={style.textHeader}>{props.cardSymbol}</Text>
           )}
@@ -103,7 +108,7 @@ export default (props) => {
       <CardItem style={style.bgCard}>
         <Left style={{ flex: 0 }} />
         <Body style={{ flex: 1 }}>
-          <Text style={props.subtitleSmall ? style.subtitleSmall : style.textFooter} numberOfLines={1}>{props.subtitle}</Text>
+          <Text style={props.subtitleSmall ? style.subtitleSmall : style.textFooter}>{props.subtitle}</Text>
         </Body>
         <Right style={{ flex: 0 }} />
       </CardItem>
@@ -133,6 +138,7 @@ const style = StyleSheet.create({
     color: "rgba(225, 225, 225, 0.50)",
     fontFamily: "Fontfabric-NexaBold",
     alignSelf: "center",
+    textAlign: "center",
   },
   subtitleSmall: {
     fontSize: 9,
@@ -140,6 +146,7 @@ const style = StyleSheet.create({
     color: "rgba(225, 225, 225, 0.50)",
     fontFamily: "Fontfabric-NexaBold",
     alignSelf: "center",
+    textAlign: "center",
   },
   textBody: {
     width: "100%",

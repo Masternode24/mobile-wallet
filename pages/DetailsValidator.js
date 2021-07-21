@@ -23,7 +23,7 @@ export default ({ store, web3t, props }) => {
 
   return (
     <Container>
-      <Header onBack={changePage("stakePage")} title={lang.titleValidatorDetail || 'Validator Details'} greenBack/>
+      <Header onBack={changePage("stakePage")} title={lang.titleValidatorDetail || 'Validator Details'} greenBack smallTitle={lang.titleValidatorDetail.length > 17 ? true : false}/>
       <View style={style.contentBg}>
         <TabsValidator store={store}/>
       </View>

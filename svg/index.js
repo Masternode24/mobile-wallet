@@ -13,3 +13,5 @@ export * from './velas-icon';
 export * from './header-staking';
 export * from './header-network';
 export * from './header-epoch';
+export * from './plus-icon';
+export * from './percent-icon';
