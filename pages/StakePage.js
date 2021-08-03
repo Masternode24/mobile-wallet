@@ -56,7 +56,8 @@ export default ({ store, web3t, props }) => {
   return (
     <Container>
       <Header title={lang.titleStake || "Stake"} />
-      <StakeBar/>
+      {stakingStore.isRefreshing ? null : <StakeBar/>}
+      
       <Content style={{ backgroundColor: Images.velasColor4 }}
       refreshControl={
         <RefreshControl

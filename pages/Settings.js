@@ -22,6 +22,9 @@ import PickerAccountIndex from "../components/PickerAccountIndex.js";
 import Background from "../components/Background.js";
 import Images from "../Images.js";
 import Header from '../components/Header'
+import { NetworkIcon } from "../svg/index";
+import PickerSetNetwork from "../components/PickerSetNetwork.js";
+import PickerCustomNetwork from "../components/PickerCustomNetwork.js";
 
 const LocalAuthListView = ({store}) => {
   const lang = getLang(store);
@@ -159,24 +162,21 @@ export default ({ store, web3t }) => {
           <LocalAuthListView store={store}/>
 
           <Separator bordered style={styles.seperatorStyle}>
-            <Text style={styles.styleTxtSeparator}>Networks</Text>
+            <Text style={styles.styleTxtSeparator}>{lang.networks || "Networks"}</Text>
           </Separator>
 
           <ListItem icon style={styles.heightListItem} underlayColor={Images.velasColor2}>
             <Left>
-              <Icon name="ios-log-out" style={styles.styleTxtSettings}/>
+              <NetworkIcon />
             </Left>
             <Body style={styles.heightListItem}>
-              <Text style={styles.txtSettings}>Mainnet</Text>
+              {PickerSetNetwork({ store })}
             </Body>
             <Right style={styles.heightListItem} />
           </ListItem>
-          <ListItem icon last style={styles.heightListItem} underlayColor={Images.velasColor2}>
-            <Left/>
-            <Body style={styles.heightListItem}>
-              <Text style={styles.txtSettings}>Custom</Text>
-            </Body>
-            <Right style={styles.heightListItem} />
+          <ListItem last style={styles.heightListItem} underlayColor={Images.velasColor2}>
+              <Text style={styles.txtSettings}>{lang.customBtn}</Text>
+              {PickerCustomNetwork({ store, web3t })}
           </ListItem>
 
           <Separator bordered style={styles.seperatorStyle}>

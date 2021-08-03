@@ -1,102 +1,133 @@
-import React from "react";
-import { StyleSheet, Dimensions, Text, ActivityIndicator, Platform, View } from "react-native";
-import { Left, Body, Right, ListItem} from "native-base";
-import Images from "../Images";
-import { Avatar } from "../svg";
-import { Badge } from "react-native-elements";
-import IdentIcon from "./Identicon";
-import { formatStakeAmount } from "../utils/format-value";
+import React, { useRef } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import getLang from "../wallet/get-lang.js";
 import { observer } from "mobx-react";
-import PickerSetComponent from "./PickerSetComponent";
+import { StakingHeader, NetworkHeader, EpochHeader } from "../svg/index";
+import DropDown from "./DropDown";
+import { Tooltip } from "react-native-elements";
 
-export default observer(({ store, isStaked, ...props }) => {
-//   const lang = getLang(store);
+export default observer(({ store, isStaked, selectedItem, ...props }) => {
+  const stakingData = ["Velas", "Solana"];
+  const networkData = ["TestNet", "MainNet"];
+  const currentBlock = 442424;
+  const time = "00:40:22";
+  const epoch = 444;
 
-//   const typeBadge = (type) => {
-//     switch (type) {
-//       case "active":
-//         return lang.badgeActive || "Active";
-//       case "inactive":
-//         return lang.badgeInactive || "Inactive";
-//       default:
-//         return null;
-//     }
-//   };
-
-//   const badgeStatus = () => {
-//     return (
-//       <Badge
-//         value={
-//           <Text style={style.txtStyleBadge}>{typeBadge(props.typeBadge)}</Text>
-//         }
-//         badgeStyle={
-//           props.typeBadge === "active" ? style.active : style.inactive
-//         }
-//       />
-//     );
-//   };
+  const EpochValue = () => {
+    const tooltipRef = useRef(null);
+    const EpochDetail = () => {
+      return (
+        <View>
+          <View style={style.tooltipRowStyle}>
+            <Text style={style.tooltipRowText}>Current block</Text>
+            <Text style={[style.tooltipRowText, {fontFamily: "Fontfabric-NexaBold"}]}> #{currentBlock}</Text>
+          </View>
+          <View style={style.tooltipRowStyle}>
+            <Text style={style.tooltipRowText}>Time until end</Text>
+            <Text style={[style.tooltipRowText, {fontFamily: "Fontfabric-NexaBold"}]}> {time}</Text>
+          </View>
+        </View>
+      )
+    };
+    return (
+      <Tooltip
+        ref={tooltipRef}
+        withOverlay={false}
+        containerStyle={style.tooltipContainerStyle}
+        pointerColor="#27282C"
+        withPointer={false}
+        popover={<EpochDetail />}
+      >
+        <Text style={style.epochText}>{epoch}</Text>
+      </Tooltip>
+    );
+  };
   return (
-    <View style={{backgroundColor: '#1F2853', height: 140, flexDirection: "row", justifyContent: "center"}}>
-        <View style={{flex: 0.3, backgroundColor: "red"}}><PickerSetComponent item='staking' icon='staking'/></View>
-        <View style={{flex: 0.3, backgroundColor: "green"}}></View>
-        <View style={{flex: 0.3, backgroundColor: "pink"}}></View>
+    <View style={style.mainRow}>
+      <View style={style.partRow}>
+        <View style={style.iconView}>
+          <StakingHeader />
+        </View>
+        <View style={style.columnView}>
+          <Text style={style.subtitleText}>Staking</Text>
+          <DropDown data={stakingData} defaultButtonText={stakingData[0]} />
+        </View>
+      </View>
+
+      <View style={style.partRow}>
+        <View style={style.iconView}>
+          <NetworkHeader />
+        </View>
+        <View style={style.columnView}>
+          <Text style={style.subtitleText}>Network</Text>
+          <DropDown data={networkData} defaultButtonText={networkData[0]} />
+        </View>
+      </View>
+
+      <View style={style.partRow}>
+        <View style={style.iconView}>
+          <EpochHeader />
+        </View>
+        <View style={style.columnView}>
+          <Text style={[style.subtitleText, {top: 0}]}>Epoch</Text>
+          <EpochValue />
+        </View>
+      </View>
     </View>
   );
 });
 
 const style = StyleSheet.create({
-  styleTitle: {
-    color: "#fff",
-    fontSize: 13,
-    fontFamily: "Fontfabric-NexaRegular",
+  mainRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 45,
+    backgroundColor: "#1F2853",
+    alignItems: "center",
+    // borderBottomWidth: 2,
+    // borderBottomColor: Images.velasColor4
   },
-  styleBalance: {
-    marginTop: 3,
-    fontSize: 13,
-    fontFamily: "Fontfabric-NexaRegular",
+  partRow: {
+    width: "30%",
+    flexDirection: "row",
   },
-  styleSubTitle: {
+  iconView: {
+    width: "30%",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  columnView: {
+    width: "70%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
+  subtitleText: {
     color: "rgba(255, 255, 255, 0.3)",
-    fontSize: 10,
-    marginTop: 10,
-    fontFamily: "Fontfabric-NexaRegular",
-  },
-  active: {
-    backgroundColor: Images.colorGreen,
-    borderColor: Images.colorGreen,
-    paddingHorizontal: 3,
-    height: 11,
-    borderRadius: 10,
-    marginTop: 5
-  },
-  inactive: {
-    backgroundColor: "#8A8A8A",
-    borderColor: "#8A8A8A",
-    paddingHorizontal: 3,
-    height: 11,
-    borderRadius: 10,
-    marginTop: 5
-  },
-  txtStyleBadge: {
-    color: "#0B0B25",
-    fontSize: 6,
+    marginLeft: 10,
     textTransform: "uppercase",
+    fontSize: 10,
+    top: 15,
+    // zIndex: 9999
+  },
+  epochText: {
+    fontSize: 13,
+    color: "white",
     fontFamily: "Fontfabric-NexaRegular",
+    marginLeft: 10,
+    marginTop: 3,
   },
-  listItemStyle: {
-    marginHorizontal: 20,
-    borderBottomWidth: 3,
-    borderBottomColor: Images.velasColor4,
-    height: 90,
+  tooltipContainerStyle: {
+    height: 50,
+    width: 'auto',
+    marginTop: 15,
+    backgroundColor: "#27282C",
+    borderRadius: 0,
   },
-  rightSide: {
-    paddingLeft: 10, paddingRight: 10
+  tooltipRowStyle: {
+    flexDirection: "row", marginHorizontal: 10
   },
-  leftSide: {
-    marginLeft: 10
-  },
-  bodyPadding: {
-    paddingRight: 5
+  tooltipRowText: {
+    color: "white",  fontFamily: "Fontfabric-NexaRegular", fontSize: 14 
   }
 });

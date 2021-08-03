@@ -15,3 +15,4 @@ export * from './header-network';
 export * from './header-epoch';
 export * from './plus-icon';
 export * from './percent-icon';
+export * from './network-icon';

@@ -15643,6 +15643,11 @@ react-native-securerandom@^0.1.1:
   dependencies:
     base64-js "*"
 
+react-native-select-dropdown@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-native-select-dropdown/-/react-native-select-dropdown-1.0.9.tgz#3df0f0c42d63a59101ac958f02ad154756f6e5ac"
+  integrity sha512-0MtM3lO6ntc8tmRs6lqT3JiPAZadecn336/3QN1DsB8FJAfpKdWiBk0a2/3gITOjUIQoQLrK+6IghHae6Ef6OA==
+
 react-native-simple-dialogs@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/react-native-simple-dialogs/-/react-native-simple-dialogs-1.2.1.tgz"
