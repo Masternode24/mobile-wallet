@@ -20,7 +20,7 @@ export default ({ store, web3t, props }) => {
   if (stakingStore.isRefreshing) return null;
   const details = stakingStore.getValidatorDetails();
   const ADDRESS = details.address;
-  const TOTAL_STAKE = !details.myStake.isZero() ? formatStakeAmount(details.myStake) : formatStakeAmount(details.activeStake);
+  const TOTAL_STAKE = details.myStake && !details.myStake.isZero() ? formatStakeAmount(details.myStake) : formatStakeAmount(details.activeStake);
 
   const AVAILABLE_BALANCE = details.available_balance;
 
@@ -28,7 +28,7 @@ export default ({ store, web3t, props }) => {
     store.amount = text;
   };
   console.log('store.amount', store.amount)
-  
+
   const amountToBN = (amount) => {
     if (!parseFloat(amount)) {
       return new BN(0);
@@ -82,7 +82,7 @@ export default ({ store, web3t, props }) => {
             <Notice
               text={"You are trying to enter more than you have available on the balance sheet!!"}
               icon="warning"
-            /> 
+            />
             : null } */}
           {parseFloat(store.amount) && amountToBN(store.amount).gte(AVAILABLE_BALANCE.sub(new BN(1e9))) ?
           <Notice

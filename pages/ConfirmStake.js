@@ -64,7 +64,7 @@ export default ({ store, web3t, props }) => {
         <View style={style.container}>
           <Text style={style.title}>{lang.titleItemsStake || "These actions will be made"}</Text>
           {/* {!details.myStake.isZero() ? ( */}
-          {swapAmount.isZero() ? (
+          {!swapAmount || swapAmount.isZero() ? (
             <View style={style.steps}>
             <StepItem
               index="1"

@@ -15,6 +15,9 @@ const wrapNumber = (n) => {
 };
 
 const formatStakeAmount = (n) => {
+  if (!n) {
+    return '(null)';
+  }
   if (n.isZero()) {
     return '0.00';
   }
@@ -28,7 +31,7 @@ const formatAmount = (n) => {
   n = n.div(new BN('10000000', 10)).toNumber()/100;
   return n.toFixed(2);
 }
-// TO DO for large numbers 
+// TO DO for large numbers
 const formatReward = (n) => {
   n = n.div(new BN('100000', 10)).toNumber()/10000;
   return n.toFixed(4);

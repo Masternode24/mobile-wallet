@@ -83,7 +83,7 @@ export default ({ store, web3t }) => {
       }
     };
 
-    const txs = store.transactions.applied;		
+    const txs = store.transactions.applied;
 
     const showTransaction = (transaction) => {
         store.infoTransaction = transaction;
@@ -105,7 +105,6 @@ export default ({ store, web3t }) => {
     }
 
     const renderTransaction = (transaction) => {
-		debugger;
 			var r_amount = roundNumber(transaction.amount, {decimals: 2});
 			var amount = roundHuman(r_amount);
 			var curr = transaction.token;

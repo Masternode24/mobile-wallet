@@ -25,7 +25,7 @@ export default ({ store, web3t }) => {
   const changePage = (tab) => () => {
     store.current.page = tab;
   };
-  
+
   const [index, setIndex] = React.useState(0);
   const lang = getLang(store);
   const [routes] = React.useState([
@@ -219,16 +219,16 @@ export default ({ store, web3t }) => {
           copyAddress={copyAddress}
           isActive={details.status === "active" ? true : false}
           value1={details.commission}
-          value2={!details.myStake.isZero() ? `${formatStakeAmount(details.myStake)} VLX` : `${formatStakeAmount(details.activeStake)} VLX`}
+          value2={details.myStake && !details.myStake.isZero() ? `${formatStakeAmount(details.myStake)} VLX` : `${formatStakeAmount(details.activeStake)} VLX`}
           subtitle1={lang.validatorInterest || "VALIDATOR INTEREST"}
           subtitle2={
-            !details.myStake.isZero()
+            details.myStake && !details.myStake.isZero()
               ? lang.myStake || "MY STAKE"
               : lang.totalStake || "TOTAL STAKE"
           }
           store={store}
         />
-      {!details.myStake.isZero() ?
+      {details.myStake && !details.myStake.isZero() ?
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}

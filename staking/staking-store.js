@@ -176,14 +176,14 @@ class StakingStore {
     if (!this.validators) {
       return null;
     }
-    return this.validators.filter((validator) => !validator.myStake.isZero());
+    return this.validators.filter((validator) => validator.myStake && !validator.myStake.isZero());
   }
 
   getNotStakedValidators() {
     if (!this.validators) {
       return null;
     }
-    return this.validators.filter(({myStake}) => myStake.isZero());
+    return this.validators.filter(({myStake}) => myStake && myStake.isZero());
   }
 
   getValidatorDetails() {
